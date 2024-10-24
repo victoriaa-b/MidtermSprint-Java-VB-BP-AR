@@ -1,103 +1,73 @@
 // check to see if needs packages later 
 
-public class LibraryItem {
-    private int id;
-    private String title;
-    private String author;
-    private String ISBN;
-    private String publisher;
-    private int numOfCopies;
-    private String itemType; // its either a book or periodicals 
-    private String form;   // books can only be "Printed", "Electronic", "Audio" 
-    // periodicals only have  "Printed" or "Electronic"
+abstract class LibraryItem {
+    protected String id;
+    protected String title;
+    protected String author;
+    protected String isbn;
+    protected String publisher;
+    protected int copiesAvailable;
 
-    // constructor 
-    // books or peroidcal needs to be allowed 
-    public LibraryItem(int id, String title, String author, String ISBN, String publisher, int numOfCopies, String itemType, String format) {
+    public LibraryItem(String id, String title, String author, String isbn, String publisher, int copiesAvailable) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.publisher = publisher;
-        this.numOfCopies = numOfCopies;
-        this.itemType = itemType;
-        this.form = format;
+        this.copiesAvailable = copiesAvailable;
     }
 
-    // getters and setters
-    public int getId() {
-        return id;
-    }
-
+    public abstract String getItemType();
+    
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getISBN() {
-        return ISBN;
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void borrowItem() {
+        if (copiesAvailable > 0) {
+            copiesAvailable--;
+        } else {
+            System.out.println("Item is currently checked out.");
+        }
     }
 
-    public String getPublisher() {
-        return publisher;
+    public void returnItem() {
+        copiesAvailable++;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    @Override
+    public String toString() {
+        return String.format("%s: %s by %s (ISBN: %s, Publisher: %s, Copies Available: %d)", 
+        getItemType(), title, author, isbn, publisher, copiesAvailable);
     }
-
-    public int getNumOfCopies() {
-        return numOfCopies;
-    }
-
-    public void setNumOfCopies(int numOfCopies) {
-        this.numOfCopies = numOfCopies;
-    }
-
-    public String getItemType() {
-        return itemType;
-    }
-
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
-    }
-
-    public String getForm() {
-        return form;
-    }
-
-    public void setForm(String form) {
-        this.form = form;
-    }
-
-    // display the data 
-@Override
-public String toString() {
-    return "LibraryItem { " +
-            "ID = " + id + 
-            ", Title = '" + title + "'" +
-            ", Author = '" + author + "'" +
-            ", ISBN = '" + ISBN + "'" +
-            ", Publisher = '" + publisher + "'" +
-            ", Number of Copies = " + numOfCopies +
-            ", Item Type = '" + itemType + "'" +
-            ", Form = '" + form + "' " +
-            "}";
 }
 
+// Part of LibraryItem but still it's own class
+class Book extends LibraryItem {
+    public Book(String id, String title, String author, String isbn, String publisher, int copiesAvailable) {
+        super(id, title, author, isbn, publisher, copiesAvailable);
+    }
+
+    @Override
+    public String getItemType() {
+        return "Book";
+    }
+}
+
+class Periodical extends LibraryItem {
+    private boolean isElectronic;
+
+    public Periodical(String id, String title, String author, String isbn, String publisher, int copiesAvailable, boolean isElectronic) {
+        super(id, title, author, isbn, publisher, copiesAvailable);
+        this.isElectronic = isElectronic;
+    }
+
+    @Override
+    public String getItemType() {
+        return isElectronic ? "Electronic Periodical" : "Printed Periodical";
+    }
 }
