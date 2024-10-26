@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
 public class LibraryMenu {
     private static Library library = new Library();
@@ -17,10 +17,10 @@ public class LibraryMenu {
             System.out.println("5. Add Patron");
             System.out.println("6. Search Item by Title");
             System.out.println("7. Get list of books in library");
-            System.out.println("8. Exit");
+            System.out.println("8. Get list of All Authors");
+            System.out.println("9. Get list of All Patrons");
+            System.out.println("10. Exit");
             System.out.print("Choose an option: ");
-            System.out.println();
-
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -47,12 +47,19 @@ public class LibraryMenu {
                     getBookLists();
                     break;
                 case 8:
+                    showAllAuthors();
+                    break;
+                case 9:
+                    showAllPatrons();
+                    break;
+                case 10:
                     System.out.println("Exiting...");
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
         }
+    }
     }
 
     private static void addLibraryItem() {
@@ -194,6 +201,31 @@ public class LibraryMenu {
         }
     }
 
+    private static void showAllAuthors() {
+    List<Author> authors = library.getAuthors();
+    if (authors.isEmpty()) {
+        System.out.println("No authors are currently available.");
+    } else {
+        System.out.println("All of the Authors in library:");
+        for (Author author : authors) {
+            System.out.println(author);
+        }
+    }
+}
+
+private static void showAllPatrons() {
+    List<Patron> patrons = library.getPatrons();
+    if (patrons.isEmpty()) {
+        System.out.println("No patrons are currently available.");
+    } else {
+        System.out.println("All of the Patrons in library:");
+        for (Patron patron : patrons) {
+            System.out.println(patron);
+        }
+    }
+}
+
+
     private static Patron findPatronByName(String name) {
         for (Patron patron : library.getPatrons()) {
             if (patron.name.equalsIgnoreCase(name)) {
@@ -202,4 +234,4 @@ public class LibraryMenu {
         }
         return null;
     }
-}
+

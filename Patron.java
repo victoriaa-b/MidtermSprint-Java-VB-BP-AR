@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 abstract class Patron {
-    protected String name;
+    public String name;
     protected String address;
     protected String phoneNumber;
     protected List<LibraryItem> borrowedItems;
