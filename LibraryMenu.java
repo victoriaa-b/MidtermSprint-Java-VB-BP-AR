@@ -1,6 +1,3 @@
-/// this isnt done, just the example that was given 
-// add parts as we go
-
 import java.util.Scanner;
 import java.util.List;
 
@@ -9,7 +6,6 @@ public class LibraryMenu {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
         // The menu main window
         while (true) {
             System.out.println();
@@ -48,7 +44,7 @@ public class LibraryMenu {
                     searchItemByTitle();
                     break;
                 case 7:
-                    getBookLists(); // Updated method call
+                    getBookLists();
                     break;
                 case 8:
                     System.out.println("Exiting...");
@@ -77,14 +73,18 @@ public class LibraryMenu {
 
         System.out.print("Is this a book or periodical (b/p)? ");
         char type = scanner.nextLine().charAt(0);
+
         if (type == 'b') {
-            library.addItem(new Book(id, title, author, isbn, publisher, copiesAvailable));
+            System.out.print("Enter format (Printed, Electronic, Audio): ");
+            String format = scanner.nextLine();
+            library.addItem(new Book(id, title, author, isbn, publisher, copiesAvailable, format));
+            System.out.println("Library item added: " + new Book(id, title, author, isbn, publisher, copiesAvailable, format));
         } else {
-            System.out.print("Is it electronic (y/n)? ");
-            boolean isElectronic = scanner.nextLine().equalsIgnoreCase("y");
-            library.addItem(new Periodical(id, title, author, isbn, publisher, copiesAvailable, isElectronic));
+            System.out.print("Enter format (Printed, Electronic): ");
+            String format = scanner.nextLine();
+            library.addItem(new Periodical(id, title, author, isbn, publisher, copiesAvailable, format));
+            System.out.println("Library item added: " + new Periodical(id, title, author, isbn, publisher, copiesAvailable, format));
         }
-        System.out.println("Library item added.");
     }
 
     private static void borrowItem() {
@@ -161,7 +161,7 @@ public class LibraryMenu {
         LibraryItem item = library.searchItemByTitle(title);
         if (item != null) {
             System.out.println(item);
-        } else { 
+        } else {
             System.out.println("Item not found.");
         }
     }
@@ -169,18 +169,18 @@ public class LibraryMenu {
     private static void getBookLists() {
         System.out.println("All books in library:");
         List<LibraryItem> items = library.getItems();
-    
+
         boolean foundBook = false;
         for (LibraryItem item : items) {
-            if (item instanceof Book) { // Check if item is an instance of Book
-                System.out.println(item); // Print the item details
+            if (item instanceof Book) {
+                System.out.println(item);
                 foundBook = true;
             }
-    }
-    
-    if (!foundBook) {
-        System.out.println("No books found in the library.");
-    }
+        }
+
+        if (!foundBook) {
+            System.out.println("No books found in the library.");
+        }
     }
 
     private static Patron findPatronByName(String name) {
@@ -192,4 +192,3 @@ public class LibraryMenu {
         return null;
     }
 }
-

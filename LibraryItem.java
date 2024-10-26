@@ -1,5 +1,3 @@
-// check to see if needs packages later 
-
 abstract class LibraryItem {
     protected String id;
     protected String title;
@@ -18,7 +16,7 @@ abstract class LibraryItem {
     }
 
     public abstract String getItemType();
-    
+
     public String getTitle() {
         return title;
     }
@@ -46,28 +44,30 @@ abstract class LibraryItem {
     }
 }
 
-// Part of LibraryItem but still it's own class
 class Book extends LibraryItem {
-    public Book(String id, String title, String author, String isbn, String publisher, int copiesAvailable) {
+    private String format; // "Printed", "Electronic", or "Audio"
+
+    public Book(String id, String title, String author, String isbn, String publisher, int copiesAvailable, String format) {
         super(id, title, author, isbn, publisher, copiesAvailable);
+        this.format = format;
     }
 
     @Override
     public String getItemType() {
-        return "Book";
+        return "Book (" + format + ")";
     }
 }
 
 class Periodical extends LibraryItem {
-    private boolean isElectronic;
+    private String format; // Format can be "Printed" or "Electronic"
 
-    public Periodical(String id, String title, String author, String isbn, String publisher, int copiesAvailable, boolean isElectronic) {
+    public Periodical(String id, String title, String author, String isbn, String publisher, int copiesAvailable, String format) {
         super(id, title, author, isbn, publisher, copiesAvailable);
-        this.isElectronic = isElectronic;
+        this.format = format;
     }
 
     @Override
     public String getItemType() {
-        return isElectronic ? "Electronic Periodical" : "Printed Periodical";
+        return "Periodical (" + format + ")";
     }
 }
