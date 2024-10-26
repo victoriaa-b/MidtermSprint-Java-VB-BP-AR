@@ -45,8 +45,16 @@ class Student extends Patron {
 
 // Employee number
 class Employee extends Patron {
-    public Employee(String name, String address, String phoneNumber) {
+    private String employeeId;
+
+    public Employee(String name, String address, String phoneNumber, String employeeId) {
         super(name, address, phoneNumber);
+        this.employeeId = employeeId;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Employee ID: " + employeeId;
     }
 }
 

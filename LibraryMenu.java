@@ -73,17 +73,19 @@ public class LibraryMenu {
 
         System.out.print("Is this a book or periodical (b/p)? ");
         char type = scanner.nextLine().charAt(0);
-
+        
         if (type == 'b') {
             System.out.print("Enter format (Printed, Electronic, Audio): ");
             String format = scanner.nextLine();
-            library.addItem(new Book(id, title, author, isbn, publisher, copiesAvailable, format));
-            System.out.println("Library item added: " + new Book(id, title, author, isbn, publisher, copiesAvailable, format));
+            Book book = new Book(id, title, author, isbn, publisher, copiesAvailable, format);
+            library.addItem(book);
+            System.out.println("Library item added: " + book);
         } else {
             System.out.print("Enter format (Printed, Electronic): ");
             String format = scanner.nextLine();
-            library.addItem(new Periodical(id, title, author, isbn, publisher, copiesAvailable, format));
-            System.out.println("Library item added: " + new Periodical(id, title, author, isbn, publisher, copiesAvailable, format));
+            Periodical periodical = new Periodical(id, title, author, isbn, publisher, copiesAvailable, format);
+            library.addItem(periodical);
+            System.out.println("Library item added: " + periodical);
         }
     }
 
@@ -102,7 +104,7 @@ public class LibraryMenu {
         LibraryItem item = library.searchItemByTitle(title);
         if (item != null) {
             library.borrowItem(patron, item);
-            System.out.println("Item borrowed successfully.");
+            System.out.println("Item borrowed successfully: " + item);
         } else {
             System.out.println("Item not found.");
         }
@@ -123,7 +125,7 @@ public class LibraryMenu {
         LibraryItem item = library.searchItemByTitle(title);
         if (item != null) {
             library.returnItem(patron, item);
-            System.out.println("Item returned successfully.");
+            System.out.println("Item returned successfully: " + item);
         } else {
             System.out.println("Item not found.");
         }
@@ -137,7 +139,7 @@ public class LibraryMenu {
 
         Author author = new Author(name, dob);
         library.addAuthor(author);
-        System.out.println("Author added.");
+        System.out.println("Author added: " + author);
     }
 
     private static void addPatron() {
@@ -147,12 +149,21 @@ public class LibraryMenu {
         String address = scanner.nextLine();
         System.out.print("Enter patron phone number: ");
         String phoneNumber = scanner.nextLine();
-
+    
         System.out.print("Is this a student or employee (s/e)? ");
         char type = scanner.nextLine().charAt(0);
-        Patron patron = (type == 's') ? new Student(name, address, phoneNumber) : new Employee(name, address, phoneNumber);
-        library.addPatron(patron);
-        System.out.println("Patron added.");
+        
+        if (type == 's') {
+            Patron patron = new Student(name, address, phoneNumber);
+            library.addPatron(patron);
+            System.out.println("Patron added: " + patron);
+        } else {
+            System.out.print("Enter employee ID: ");
+            String employeeId = scanner.nextLine();
+            Patron patron = new Employee(name, address, phoneNumber, employeeId);
+            library.addPatron(patron);
+            System.out.println("Patron added: " + patron);
+        }
     }
 
     private static void searchItemByTitle() {
@@ -160,7 +171,7 @@ public class LibraryMenu {
         String title = scanner.nextLine();
         LibraryItem item = library.searchItemByTitle(title);
         if (item != null) {
-            System.out.println(item);
+            System.out.println("Item found: " + item);
         } else {
             System.out.println("Item not found.");
         }
