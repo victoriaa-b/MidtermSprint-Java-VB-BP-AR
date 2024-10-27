@@ -60,7 +60,6 @@ public class LibraryMenu {
             }
         }
     }
-    }
 
     private static void addLibraryItem() {
         // Get and store entered info by user
@@ -234,4 +233,4 @@ private static void showAllPatrons() {
         }
         return null;
     }
-
+}
