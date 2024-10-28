@@ -10,15 +10,15 @@ public class LibraryMenu {
         while (true) {
             System.out.println();
             System.out.println("\nLibrary Management System");
-            System.out.println("1. Add Library Item");
-            System.out.println("2. Borrow Item");
-            System.out.println("3. Return Item");
-            System.out.println("4. Add Author");
-            System.out.println("5. Add Patron");
-            System.out.println("6. Search Item by Title");
-            System.out.println("7. Get list of books in library");
-            System.out.println("8. Get list of All Authors");
-            System.out.println("9. Get list of All Patrons");
+            System.out.println("1. Add library item");
+            System.out.println("2. Add author");
+            System.out.println("3. Add patron");
+            System.out.println("4. Borrow item");
+            System.out.println("5. Return item");
+            System.out.println("6. Search item by title");
+            System.out.println("7. Get list of items in library");
+            System.out.println("8. Get list of all authors");
+            System.out.println("9. Get list of all patrons");
             System.out.println("10. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
@@ -29,22 +29,22 @@ public class LibraryMenu {
                     addLibraryItem();
                     break;
                 case 2:
-                    borrowItem();
-                    break;
-                case 3:
-                    returnItem();
-                    break;
-                case 4:
                     addAuthor();
                     break;
-                case 5:
+                case 3:
                     addPatron();
+                    break;
+                case 4:
+                    borrowItem();
+                    break;
+                case 5:
+                    returnItem();
                     break;
                 case 6:
                     searchItemByTitle();
                     break;
                 case 7:
-                    getBookLists();
+                    getLibraryItems();
                     break;
                 case 8:
                     showAllAuthors();
@@ -183,20 +183,16 @@ public class LibraryMenu {
         }
     }
 
-    private static void getBookLists() {
-        System.out.println("All books in library:");
+    private static void getLibraryItems() {
+        System.out.println("All items in the library:");
         List<LibraryItem> items = library.getItems();
-
-        boolean foundBook = false;
-        for (LibraryItem item : items) {
-            if (item instanceof Book) {
+    
+        if (items.isEmpty()) {
+            System.out.println("No items found in the library.");
+        } else {
+            for (LibraryItem item : items) {
                 System.out.println(item);
-                foundBook = true;
             }
-        }
-
-        if (!foundBook) {
-            System.out.println("No books found in the library.");
         }
     }
 
