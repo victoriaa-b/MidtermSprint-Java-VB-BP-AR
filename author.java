@@ -1,4 +1,3 @@
-// check for packages
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +12,12 @@ class Author {
         this.writtenItems = new ArrayList<>();
     }
 
-    public void addWrittenItem(LibraryItem item) {
-        writtenItems.add(item);
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void addWrittenItem(LibraryItem item) {
+        writtenItems.add(item);
     }
 
     public List<LibraryItem> getWrittenItems() {
@@ -27,8 +26,6 @@ class Author {
 
     @Override
     public String toString() {
-        return "Author: " + name + ", DOB: " + dateOfBirth;
+        return String.format("%s (DOB: %s)", name, dateOfBirth);
     }
 }
-
-
