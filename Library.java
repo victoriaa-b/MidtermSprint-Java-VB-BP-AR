@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 class Library {
     private List<LibraryItem> items;
@@ -18,7 +19,7 @@ class Library {
 
     public void removeItem(String id) {
         items.removeIf(item -> item.id.equals(id));
-        // Optionally: Remove from author's writtenItems if necessary
+        // Remove from author's writtenItems if necessary
         for (Author author : authors) {
             author.getWrittenItems().removeIf(item -> item.id.equals(id));
         }
@@ -50,17 +51,28 @@ class Library {
         return null;
     }
 
-    public void borrowItem(Patron patron, LibraryItem item) {
-        if (item != null && item.copiesAvailable > 0) {
-            patron.borrowItem(item);
-            item.borrowItem(); // Update the item's available copies
+    public boolean borrowItem(Patron patron, LibraryItem item, int numberOfCopies) {
+        if (item.getCopiesAvailable() >= numberOfCopies) {
+            item.borrowItem(numberOfCopies); // Decrease available copies
+            patron.borrowItem(item, numberOfCopies);  // Add item to patron's borrowed items
+            return true; // Successfully borrowed
+        } else {
+            System.out.println("Not enough copies available.");
+            return false; // Failed to borrow
         }
     }
-
-    public void returnItem(Patron patron, LibraryItem item) {
-        if (item != null) {
-            patron.returnItem(item);
-            item.returnItem(); // Update the item's available copies
+    
+    public boolean returnItem(Patron patron, LibraryItem item, int numberOfCopies) {
+        Map<LibraryItem, Integer> borrowedItems = patron.getBorrowedItems();
+    
+        // Check if the item exists in the borrowed items and if enough copies are available
+        if (borrowedItems.containsKey(item) && borrowedItems.get(item) >= numberOfCopies) {
+            patron.returnItem(item, numberOfCopies); // Remove item from patron's borrowed items
+            item.returnItem(numberOfCopies); // Increase available copies
+            return true; // Successfully returned
+        } else {
+            System.out.println("This item was not borrowed by this patron or not enough copies to return.");
+            return false; // Failed to return
         }
     }
 

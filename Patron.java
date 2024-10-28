@@ -1,28 +1,57 @@
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 abstract class Patron {
     protected String name;
     protected String address;
     protected String phoneNumber;
-    protected List<LibraryItem> borrowedItems;
+    protected Map<LibraryItem, Integer> borrowedItems; // Change to Map for counting copies
 
     public Patron(String name, String address, String phoneNumber) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.borrowedItems = new ArrayList<>();
+        this.borrowedItems = new HashMap<>(); // Initialize with HashMap
     }
 
-    public void borrowItem(LibraryItem item) {
-        borrowedItems.add(item);
+    public String getName() {
+        return name; // Ensure this method exists
     }
 
-    public void returnItem(LibraryItem item) {
-        borrowedItems.remove(item);
+    public void borrowItem(LibraryItem item, int numberOfCopies) {
+        borrowedItems.put(item, borrowedItems.getOrDefault(item, 0) + numberOfCopies);
     }
 
-    public List<LibraryItem> getBorrowedItems() {
+    public void returnItem(LibraryItem item, int numberOfCopies) {
+        if (borrowedItems.containsKey(item)) {
+            int currentCount = borrowedItems.get(item);
+            if (currentCount >= numberOfCopies) {
+                borrowedItems.put(item, currentCount - numberOfCopies);
+                if (currentCount == numberOfCopies) {
+                    borrowedItems.remove(item); // Remove the item if all copies are returned
+                }
+            } else {
+                System.out.println("You cannot return more copies than you have borrowed.");
+            }
+        } else {
+            System.out.println("This item was not borrowed by this patron.");
+        }
+    }
+
+    // Method to display borrowed items
+    public void displayBorrowedItems() {
+        if (borrowedItems.isEmpty()) {
+            System.out.println(name + " has no borrowed items.");
+        } else {
+            System.out.println(name + "'s borrowed items:");
+            for (Map.Entry<LibraryItem, Integer> entry : borrowedItems.entrySet()) {
+                System.out.println(entry.getValue() + " copies of: " + entry.getKey().getTitle());
+            }
+        }
+    }
+
+    public Map<LibraryItem, Integer> getBorrowedItems() {
         return borrowedItems;
     }
 
@@ -32,13 +61,14 @@ abstract class Patron {
     }
 }
 
+// Student class
 class Student extends Patron {
     public Student(String name, String address, String phoneNumber) {
         super(name, address, phoneNumber);
     }
 }
 
-// Employee number
+// Employee class
 class Employee extends Patron {
     private String employeeId;
 
@@ -52,4 +82,3 @@ class Employee extends Patron {
         return super.toString() + ", Employee ID: " + employeeId;
     }
 }
-
