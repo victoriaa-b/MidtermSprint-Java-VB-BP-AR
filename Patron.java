@@ -1,9 +1,8 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
 abstract class Patron {
-    public String name;
+    protected String name;
     protected String address;
     protected String phoneNumber;
     protected List<LibraryItem> borrowedItems;
@@ -15,25 +14,21 @@ abstract class Patron {
         this.borrowedItems = new ArrayList<>();
     }
 
-    // For borrowing an item
     public void borrowItem(LibraryItem item) {
-        if (item != null) {
-            item.borrowItem();
-            borrowedItems.add(item);
-        }
+        borrowedItems.add(item);
     }
 
-    // For returning the item
     public void returnItem(LibraryItem item) {
-        if (item != null) {
-            item.returnItem();
-            borrowedItems.remove(item);
-        }
+        borrowedItems.remove(item);
+    }
+
+    public List<LibraryItem> getBorrowedItems() {
+        return borrowedItems;
     }
 
     @Override
     public String toString() {
-        return "Patron: " + name + ", Address: " + address + ", Phone: " + phoneNumber;
+        return String.format("%s (Address: %s, Phone: %s)", name, address, phoneNumber);
     }
 }
 

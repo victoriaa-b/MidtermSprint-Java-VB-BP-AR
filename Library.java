@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,10 @@ class Library {
 
     public void removeItem(String id) {
         items.removeIf(item -> item.id.equals(id));
+        // Optionally: Remove from author's writtenItems if necessary
+        for (Author author : authors) {
+            author.getWrittenItems().removeIf(item -> item.id.equals(id));
+        }
     }
 
     public void addAuthor(Author author) {
@@ -48,15 +51,29 @@ class Library {
     }
 
     public void borrowItem(Patron patron, LibraryItem item) {
-        if (item != null) {
+        if (item != null && item.copiesAvailable > 0) {
             patron.borrowItem(item);
+            item.borrowItem(); // Update the item's available copies
         }
     }
 
     public void returnItem(Patron patron, LibraryItem item) {
         if (item != null) {
             patron.returnItem(item);
+            item.returnItem(); // Update the item's available copies
         }
+    }
+
+    public List<LibraryItem> searchItemsByTerm(String term) {
+        List<LibraryItem> matchingItems = new ArrayList<>();
+        for (LibraryItem item : items) {
+            if (item.getTitle().toLowerCase().contains(term.toLowerCase()) ||
+                item.getISBN().toLowerCase().contains(term.toLowerCase()) ||
+                (item.getAuthor() != null && item.getAuthor().getName().toLowerCase().contains(term.toLowerCase()))) {
+                matchingItems.add(item);
+            }
+        }
+        return matchingItems;
     }
 
     public List<LibraryItem> getItems() {
@@ -71,4 +88,3 @@ class Library {
         return authors;
     }
 }
-

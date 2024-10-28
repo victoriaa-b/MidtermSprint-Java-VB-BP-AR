@@ -1,15 +1,15 @@
 abstract class LibraryItem {
     protected String id;
     protected String title;
-    protected String author;
+    protected Author author;
     protected String isbn;
     protected String publisher;
     protected int copiesAvailable;
 
-    public LibraryItem(String id, String title, String author, String isbn, String publisher, int copiesAvailable) {
+    public LibraryItem(String id, String title, Author author, String isbn, String publisher, int copiesAvailable) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.author = author; // Store Author object
         this.isbn = isbn;
         this.publisher = publisher;
         this.copiesAvailable = copiesAvailable;
@@ -23,6 +23,10 @@ abstract class LibraryItem {
 
     public String getISBN() {
         return isbn;
+    }
+
+    public Author getAuthor() {  // Getter for author
+        return author;
     }
 
     public void borrowItem() {
@@ -40,16 +44,17 @@ abstract class LibraryItem {
     @Override
     public String toString() {
         return String.format("%s: %s by %s (ISBN: %s, Publisher: %s, Copies Available: %d)", 
-        getItemType(), title, author, isbn, publisher, copiesAvailable);
+        getItemType(), title, author.getName(), isbn, publisher, copiesAvailable); // Use author.getName()
     }
 }
 
 class Book extends LibraryItem {
     private String format; // "Printed", "Electronic", or "Audio"
 
-    public Book(String id, String title, String author, String isbn, String publisher, int copiesAvailable, String format) {
-        super(id, title, author, isbn, publisher, copiesAvailable);
+    public Book(String id, String title, Author author, String isbn, String publisher, int copiesAvailable, String format) {
+        super(id, title, author, isbn, publisher, copiesAvailable); // Pass Author object directly
         this.format = format;
+        author.addWrittenItem(this); // Add this book to the author's written items
     }
 
     @Override
@@ -61,9 +66,10 @@ class Book extends LibraryItem {
 class Periodical extends LibraryItem {
     private String format; // Format can be "Printed" or "Electronic"
 
-    public Periodical(String id, String title, String author, String isbn, String publisher, int copiesAvailable, String format) {
-        super(id, title, author, isbn, publisher, copiesAvailable);
+    public Periodical(String id, String title, Author author, String isbn, String publisher, int copiesAvailable, String format) {
+        super(id, title, author, isbn, publisher, copiesAvailable); // Pass Author object directly
         this.format = format;
+        author.addWrittenItem(this); // Add this periodical to the author's written items
     }
 
     @Override
