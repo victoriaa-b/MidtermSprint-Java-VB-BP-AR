@@ -3,55 +3,46 @@ import java.util.Scanner;
 import java.util.Map;
 
 public class LibraryMenu {
-    private static Library library = new Library();
-    private static Scanner scanner = new Scanner(System.in);
+    private static Library library = new Library(); // The main library object
+    private static Scanner scanner = new Scanner(System.in); // Scanner for user input
 
     public static void main(String[] args) {
-        initializeLibrary(); // Initialize with predefined records
+        initializeLibrary(); // Populate the library with initial data
 
+        // Main menu loop for user interaction
         while (true) {
-            System.out.println("\nLibrary Management System");
-            System.out.println("1. Add library item");
-            System.out.println("2. Add author");
-            System.out.println("3. Add patron");
-            System.out.println("4. Borrow item");
-            System.out.println("5. Return item");
-            System.out.println("6. Search item by title");
-            System.out.println("7. Get list of items in library");
-            System.out.println("8. Get list of all authors");
-            System.out.println("9. Get list of all patrons");
-            System.out.println("10. Exit");
-            System.out.print("Choose an option: ");
+            displayMenu(); // Show available options to the user
 
-            int choice;
+            int choice; // User's menu choice
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                continue;
+                continue; // Prompt for input again
             }
 
+            // Handle the user's choice
             switch (choice) {
-                case 1 -> addLibraryItem();
-                case 2 -> addAuthor();
-                case 3 -> addPatron();
-                case 4 -> borrowItem();
-                case 5 -> returnItem();
-                case 6 -> searchItemByTitle();
-                case 7 -> getLibraryItems();
-                case 8 -> showAllAuthors();
-                case 9 -> showAllPatrons();
+                case 1 -> addLibraryItem(); // Add a new library item
+                case 2 -> addAuthor(); // Add a new author
+                case 3 -> addPatron(); // Add a new patron
+                case 4 -> borrowItem(); // Borrow an item
+                case 5 -> returnItem(); // Return an item
+                case 6 -> searchItemByTitle(); // Search for an item by title
+                case 7 -> getLibraryItems(); // List all items in the library
+                case 8 -> showAllAuthors(); // List all authors
+                case 9 -> showAllPatrons(); // List all patrons
                 case 10 -> {
                     System.out.println("Exiting...");
-                    return;
+                    return; // Exit the program
                 }
-                default -> System.out.println("Invalid choice. Try again.");
+                default -> System.out.println("Invalid choice. Try again."); // Handle invalid choice
             }
         }
     }
 
     private static void initializeLibrary() {
-        // Add authors
+        // Initialize library with predefined authors and items
         Author author1 = new Author("J.K. Rowling", "1965-07-31");
         Author author2 = new Author("George R.R. Martin", "1948-09-20");
         Author author3 = new Author("J.R.R. Tolkien", "1892-09-03");
@@ -59,14 +50,14 @@ public class LibraryMenu {
         library.addAuthor(author2);
         library.addAuthor(author3);
 
-        // Add library items
+        // Add predefined library items
         library.addItem(new Book("1", "Harry Potter and the Sorcerer's Stone", author1, "978-0439708180", "Scholastic", 5, "Printed"));
         library.addItem(new Book("2", "A Game of Thrones", author2, "978-0553103540", "Bantam Books", 3, "Printed"));
         library.addItem(new Periodical("3", "The New England Journal of Medicine", author3, "0028-4793", "Massachusetts Medical Society", 10, "Printed"));
         library.addItem(new Book("4", "The Hobbit", author3, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
         library.addItem(new Book("5", "Harry Potter and the Chamber of Secrets", author1, "978-0439708180", "Scholastic", 5, "Printed"));
 
-        // Add patrons
+        // Add predefined patrons
         Patron patron1 = new Student("Alice Smith", "123 Maple St", "555-1234");
         Patron patron2 = new Employee("Bob Johnson", "456 Oak St", "555-5678", "E123");
         Patron patron3 = new Student("Charlie Brown", "789 Pine St", "555-8765");
@@ -77,7 +68,24 @@ public class LibraryMenu {
         library.addPatron(patron4);
     }
 
+    private static void displayMenu() {
+        // Display the main menu options
+        System.out.println("\nLibrary Management System");
+        System.out.println("1. Add library item");
+        System.out.println("2. Add author");
+        System.out.println("3. Add patron");
+        System.out.println("4. Borrow item");
+        System.out.println("5. Return item");
+        System.out.println("6. Search item by title");
+        System.out.println("7. Get list of items in library");
+        System.out.println("8. Get list of all authors");
+        System.out.println("9. Get list of all patrons");
+        System.out.println("10. Exit");
+        System.out.print("Choose an option: ");
+    }
+
     private static void addLibraryItem() {
+        // Prompt for details to add a new library item
         System.out.print("Enter item ID: ");
         String id = scanner.nextLine();
         System.out.print("Enter item title: ");
@@ -85,6 +93,7 @@ public class LibraryMenu {
         System.out.print("Enter author name: ");
         String authorName = scanner.nextLine();
 
+        // Find or create the author
         Author author = findAuthorByName(authorName);
         if (author == null) {
             System.out.println("Author not found. Would you like to create a new author? (y/n)");
@@ -97,10 +106,11 @@ public class LibraryMenu {
                 System.out.println("New author added: " + author);
             } else {
                 System.out.println("Item cannot be added without a valid author.");
-                return;
+                return; // Exit if no valid author is found
             }
         }
 
+        // Prompt for other details of the library item
         System.out.print("Enter ISBN: ");
         String isbn = scanner.nextLine();
         System.out.print("Enter publisher: ");
@@ -111,6 +121,7 @@ public class LibraryMenu {
         System.out.print("Is this a book or periodical (b/p)? ");
         char type = scanner.nextLine().charAt(0);
 
+        // Create the appropriate library item based on type
         LibraryItem item;
         if (type == 'b') {
             System.out.print("Enter format (Printed, Electronic, Audio): ");
@@ -122,11 +133,12 @@ public class LibraryMenu {
             item = new Periodical(id, title, author, isbn, publisher, copiesAvailable, format);
         }
 
-        library.addItem(item);
+        library.addItem(item); // Add the new item to the library
         System.out.println("Library item added: " + item);
     }
 
     private static Author findAuthorByName(String name) {
+        // Search for an author by name in the library
         return library.getAuthors().stream()
                 .filter(author -> author.getName().equalsIgnoreCase(name))
                 .findFirst()
@@ -134,19 +146,21 @@ public class LibraryMenu {
     }
 
     private static void borrowItem() {
+        // Process the borrowing of an item by a patron
         System.out.print("Enter patron's name: ");
         String patronName = scanner.nextLine();
         Patron patron = findPatronByName(patronName);
 
         if (patron == null) {
             System.out.println("Patron not found.");
-            return;
+            return; // Exit if patron not found
         }
 
+        // Search for items based on user input
         System.out.print("Enter search term (title, ISBN, or author): ");
         String searchTerm = scanner.nextLine();
         List<LibraryItem> items = library.searchItemsByTerm(searchTerm);
-        displayFoundItems(items);
+        displayFoundItems(items); // Display found items
 
         System.out.print("Enter the title of the item you want to borrow: ");
         String itemInput = scanner.nextLine();
@@ -166,19 +180,20 @@ public class LibraryMenu {
     }
 
     private static void returnItem() {
+        // Process the returning of an item by a patron
         System.out.print("Enter patron's name: ");
         String patronName = scanner.nextLine();
         Patron patron = findPatronByName(patronName);
 
         if (patron == null) {
             System.out.println("Patron not found.");
-            return;
+            return; // Exit if patron not found
         }
 
         System.out.print("Enter search term (title, ISBN, or author): ");
         String searchTerm = scanner.nextLine();
         List<LibraryItem> items = library.searchItemsByTerm(searchTerm);
-        displayFoundItems(items);
+        displayFoundItems(items); // Display found items
 
         System.out.print("Enter the title of the item you want to return: ");
         String itemInput = scanner.nextLine();
@@ -198,6 +213,7 @@ public class LibraryMenu {
     }
 
     private static void displayFoundItems(List<LibraryItem> items) {
+        // Display the list of found items based on a search
         if (items.isEmpty()) {
             System.out.println("No items found for the search term.");
         } else {
@@ -209,17 +225,19 @@ public class LibraryMenu {
     }
 
     private static void addAuthor() {
+        // Prompt for details to add a new author
         System.out.print("Enter author name: ");
         String name = scanner.nextLine();
         System.out.print("Enter date of birth (YYYY-MM-DD): ");
         String dob = scanner.nextLine();
 
         Author author = new Author(name, dob);
-        library.addAuthor(author);
+        library.addAuthor(author); // Add the new author to the library
         System.out.println("Author added: " + author);
     }
 
     private static void addPatron() {
+        // Prompt for details to add a new patron
         System.out.print("Enter patron name: ");
         String name = scanner.nextLine();
         System.out.print("Enter patron address: ");
@@ -238,11 +256,12 @@ public class LibraryMenu {
             String employeeId = scanner.nextLine();
             patron = new Employee(name, address, phoneNumber, employeeId);
         }
-        library.addPatron(patron);
+        library.addPatron(patron); // Add the new patron to the library
         System.out.println("Patron added: " + patron);
     }
 
     private static void searchItemByTitle() {
+        // Search for an item by its title
         System.out.print("Enter title to search: ");
         String title = scanner.nextLine();
         LibraryItem item = library.searchItemByTitle(title);
@@ -254,6 +273,7 @@ public class LibraryMenu {
     }
 
     private static void getLibraryItems() {
+        // Display all items currently in the library
         System.out.println("All items in the library:");
         List<LibraryItem> items = library.getItems();
 
@@ -267,6 +287,7 @@ public class LibraryMenu {
     }
 
     private static void showAllAuthors() {
+        // Display all authors in the library
         List<Author> authors = library.getAuthors();
         if (authors.isEmpty()) {
             System.out.println("No authors are currently available.");
@@ -288,6 +309,7 @@ public class LibraryMenu {
     }
 
     private static void showAllPatrons() {
+        // Display all patrons in the library
         List<Patron> patrons = library.getPatrons();
         if (patrons.isEmpty()) {
             System.out.println("No patrons are currently available.");
@@ -295,7 +317,7 @@ public class LibraryMenu {
             System.out.println("All of the Patrons in the library:");
             for (Patron patron : patrons) {
                 System.out.println(patron);
-                Map<LibraryItem, Integer> borrowedItems = patron.getBorrowedItems(); // Change to Map for correct access
+                Map<LibraryItem, Integer> borrowedItems = patron.getBorrowedItems(); // Access borrowed items map
                 if (borrowedItems.isEmpty()) {
                     System.out.println("  No borrowed items.");
                 } else {
@@ -308,8 +330,8 @@ public class LibraryMenu {
         }
     }
     
-
     private static Patron findPatronByName(String name) {
+        // Search for a patron by name in the library
         return library.getPatrons().stream()
                 .filter(patron -> patron.getName().equalsIgnoreCase(name))
                 .findFirst()
