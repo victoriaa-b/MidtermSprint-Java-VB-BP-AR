@@ -46,9 +46,23 @@ public class LibraryMenu {
         Author author1 = new Author("J.K. Rowling", "1965-07-31");
         Author author2 = new Author("George R.R. Martin", "1948-09-20");
         Author author3 = new Author("J.R.R. Tolkien", "1892-09-03");
+        Author author4 = new Author("Dean Koontz", "1965-07-31");
+        Author author5 = new Author("Stephen King", "1948-09-20");
+        Author author6 = new Author("Suzanne Collins", "1892-09-03");
+        Author author7 = new Author("Stieg Larson", "1892-09-03");
+        Author author8 = new Author("Zanny Minton Beddoes", "1965-07-31");
+        Author author9 = new Author("Susan Goldberg", "1948-09-20");
+        Author author10 = new Author("Dr. Amy Wilson", "1892-09-03");
         library.addAuthor(author1);
         library.addAuthor(author2);
         library.addAuthor(author3);
+        library.addAuthor(author4);
+        library.addAuthor(author5);
+        library.addAuthor(author6);
+        library.addAuthor(author7);
+        library.addAuthor(author8);
+        library.addAuthor(author9);
+        library.addAuthor(author10);
 
         // Add predefined library items
         library.addItem(new Book("1", "Harry Potter and the Sorcerer's Stone", author1, "978-0439708180", "Scholastic", 5, "Printed"));
@@ -56,6 +70,12 @@ public class LibraryMenu {
         library.addItem(new Periodical("3", "The New England Journal of Medicine", author3, "0028-4793", "Massachusetts Medical Society", 10, "Printed"));
         library.addItem(new Book("4", "The Hobbit", author3, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
         library.addItem(new Book("5", "Harry Potter and the Chamber of Secrets", author1, "978-0439708180", "Scholastic", 5, "Printed"));
+        library.addItem(new Book("6", "The Hunger Games", author6, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
+        library.addItem(new Book("7", "The Good Guy", author1, "978-0439708180", "Scholastic", 5, "Printed"));library.addItem(new Periodical("3", "The New England Journal of Medicine", author3, "0028-4793", "Massachusetts Medical Society", 10, "Printed"));
+        library.addItem(new Periodical("8", "National Geographic", author8, "0027-9358", "Nat Geo Society", 5, "Printed"));
+        library.addItem(new Periodical("9", "The Economist", author9, "0013-0613", "Economist Group", 3, "Printed"));
+        library.addItem(new Periodical("10", "Journal of Medicine", author10, "0028-4793", "Medical Journal Co.", 4, "Printed"));
+
 
         // Add predefined patrons
         Patron patron1 = new Student("Alice Smith", "123 Maple St", "555-1234");
