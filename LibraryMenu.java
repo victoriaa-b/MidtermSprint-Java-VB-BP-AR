@@ -7,6 +7,8 @@ public class LibraryMenu {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        initializeLibrary(); // Initialize with predefined records
+
         while (true) {
             System.out.println("\nLibrary Management System");
             System.out.println("1. Add library item");
@@ -46,6 +48,33 @@ public class LibraryMenu {
                 default -> System.out.println("Invalid choice. Try again.");
             }
         }
+    }
+
+    private static void initializeLibrary() {
+        // Add authors
+        Author author1 = new Author("J.K. Rowling", "1965-07-31");
+        Author author2 = new Author("George R.R. Martin", "1948-09-20");
+        Author author3 = new Author("J.R.R. Tolkien", "1892-09-03");
+        library.addAuthor(author1);
+        library.addAuthor(author2);
+        library.addAuthor(author3);
+
+        // Add library items
+        library.addItem(new Book("1", "Harry Potter and the Sorcerer's Stone", author1, "978-0439708180", "Scholastic", 5, "Printed"));
+        library.addItem(new Book("2", "A Game of Thrones", author2, "978-0553103540", "Bantam Books", 3, "Printed"));
+        library.addItem(new Periodical("3", "The New England Journal of Medicine", author3, "0028-4793", "Massachusetts Medical Society", 10, "Printed"));
+        library.addItem(new Book("4", "The Hobbit", author3, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
+        library.addItem(new Book("5", "Harry Potter and the Chamber of Secrets", author1, "978-0439708180", "Scholastic", 5, "Printed"));
+
+        // Add patrons
+        Patron patron1 = new Student("Alice Smith", "123 Maple St", "555-1234");
+        Patron patron2 = new Employee("Bob Johnson", "456 Oak St", "555-5678", "E123");
+        Patron patron3 = new Student("Charlie Brown", "789 Pine St", "555-8765");
+        Patron patron4 = new Employee("Diana Prince", "321 Elm St", "555-4321", "E456");
+        library.addPatron(patron1);
+        library.addPatron(patron2);
+        library.addPatron(patron3);
+        library.addPatron(patron4);
     }
 
     private static void addLibraryItem() {
