@@ -71,8 +71,7 @@ public class LibraryMenu {
         library.addItem(new Book("4", "The Hobbit", author3, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
         library.addItem(new Book("5", "Harry Potter and the Chamber of Secrets", author1, "978-0439708180", "Scholastic", 5, "Printed"));
         library.addItem(new Book("6", "The Hunger Games", author6, "978-0547928227", "Houghton Mifflin Harcourt", 4, "Printed"));
-        library.addItem(new Book("7", "The Good Guy", author1, "978-0439708180", "Scholastic", 5, "Printed"));library.addItem(new Periodical("3", "The New England Journal of Medicine", author3, "0028-4793", "Massachusetts Medical Society", 10, "Printed"));
-        library.addItem(new Periodical("8", "National Geographic", author8, "0027-9358", "Nat Geo Society", 5, "Printed"));
+        library.addItem(new Book("7", "The Good Guy", author1, "978-0439708180", "Scholastic", 5, "Printed"));
         library.addItem(new Periodical("9", "The Economist", author9, "0013-0613", "Economist Group", 3, "Printed"));
         library.addItem(new Periodical("10", "Journal of Medicine", author10, "0028-4793", "Medical Journal Co.", 4, "Printed"));
 
